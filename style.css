@@ -1,0 +1,419 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+main {
+    flex-grow: 1; 
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    overflow: hidden; 
+}
+
+a {
+    text-decoration: none;
+    color: #8C1C13; 
+}
+
+header {
+    background: #2D2A2A; 
+    color: #fff;
+    padding: 20px 0;
+    border-bottom: 4px solid #F2AB27; 
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav li {
+    margin-left: 20px;
+}
+
+header nav a {
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+header nav a:hover,
+header nav a.active {
+    background-color: #F2AB27;
+    color: #2D2A2A;
+}
+
+.btn {
+    display: inline-block;
+    background: #8C1C13;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+footer {
+    background: #2D2A2A;
+    color: #aaa;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+.hero {
+    background: #732C2C; 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1500x500?text=Imagem+Cultural');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.missao, .highlights {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.missao h2, .highlights h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #732C2C;
+}
+
+.missao p {
+    font-size: 18px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.highlights-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    font-size: 22px;
+    color: #8C1C13;
+    margin-bottom: 10px;
+}
+
+.page-header {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.page-header h1 {
+    font-size: 36px;
+    color: #732C2C;
+}
+
+.page-header p {
+    font-size: 18px;
+    color: #555;
+}
+
+.map-filters {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.map-filters .btn {
+    background: #eee;
+    color: #333;
+    margin: 0 5px;
+}
+
+.map-filters .btn.active {
+    background: #F2AB27;
+    color: #2D2A2A;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px; 
+    height: 600px; 
+    margin: auto;
+    background-color: #d4e8ff;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+     background-image: url('img/bahia_completa.png');
+}
+
+.ponto {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #8C1C13;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.ponto:hover {
+    transform: scale(1.4);
+}
+
+.ponto .tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 140px;
+    background-color: #2D2A2A;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%; 
+    left: 50%;
+    margin-left: -70px; 
+    transition: opacity 0.3s;
+}
+
+.ponto:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ponto-1 { top: 60%; left: 45%; } 
+.ponto-2 { top: 25%; left: 30%; } 
+.ponto-3 { top: 40%; left: 65%; } 
+.ponto-4 { top: 30%; left: 60%; } 
+
+.materiais-toolbar {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.materiais-toolbar input[type="search"] {
+    flex: 2;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.materiais-toolbar select {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.materiais-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.material-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    overflow: hidden; 
+}
+
+.material-card .img-placeholder {
+    height: 180px;
+    background: #eee url('https://via.placeholder.com/300x180?text=Recurso') no-repeat center center;
+    background-size: cover;
+}
+
+.material-card .material-image {
+    width: 100%;
+    height: 180px; 
+    object-fit: cover; 
+    display: block; 
+    border-bottom: 1px solid #ddd; 
+}
+
+.material-card-content {
+    padding: 20px;
+}
+
+.material-card-content h3 {
+    color: #732C2C;
+    margin-bottom: 10px;
+}
+
+.material-card-content p {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.material-card-content .tags {
+    margin-bottom: 20px;
+}
+
+.material-card-content .tag {
+    display: inline-block;
+    background: #eee;
+    color: #555;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.login-container {
+    max-width: 450px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.login-tabs label {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #888;
+    background: #f4f4f4;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.login-tabs label:first-of-type { border-radius: 8px 0 0 0; }
+.login-tabs label:last-of-type { border-radius: 0 8px 0 0; }
+
+.login-container input[type="radio"] {
+    display: none;
+}
+
+.form-section {
+    display: none;
+}
+
+#tab-login-radio:checked ~ .login-tabs label[for="tab-login-radio"],
+#tab-register-radio:checked ~ .login-tabs label[for="tab-register-radio"] {
+    color: #732C2C;
+    border-bottom-color: #F2AB27;
+    background: #fff;
+}
+
+#tab-login-radio:checked ~ #form-login { display: block; }
+#tab-register-radio:checked ~ #form-register { display: block; }
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group .btn {
+    width: 100%;
+    font-size: 18px;
+}
+
+.form-footer-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form-group-radio {
+    margin-bottom: 15px;
+}
+
+.form-group-radio label {
+    font-weight: normal;
+    margin-right: 15px;
+}
