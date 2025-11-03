@@ -133,6 +133,20 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 16px;
     cursor: pointer;
     transition: opacity 0.3s ease;
+}
+
+.btn-login {
+    transition: all 0.3s ease; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    display: inline-block;
+    background: #8C1C13;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
     margin-top: 15px;
 }
 
@@ -507,4 +521,5 @@ select {
     border-color: #F2AB27; 
     box-shadow: 0 0 0 3px rgba(242, 171, 39, 0.2); 
 }
+
 
