@@ -48,6 +48,7 @@ header .container {
 
 header .logo {
     font-family: 'Poppins', sans-serif; 
+    font-size: 2em;
     font-weight: 700;
     color: #fff;
     letter-spacing: -1px; 
@@ -521,6 +522,7 @@ select {
     border-color: #F2AB27; 
     box-shadow: 0 0 0 3px rgba(242, 171, 39, 0.2); 
 }
+
 
 
 
