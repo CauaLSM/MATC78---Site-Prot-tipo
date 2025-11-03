@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Saberes - AfroEduca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        
+        <div class="header-left">
+            <a href="index.html" class="logo">Afro<span>Educa</span></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Início</a></li> 
+                    <li><a href="cursos.html">Cursos</a></li>
+                    <li><a href="materiais.html">Materiais</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="header-right">
+            <a href="login.html" class="btn">Login</a>
+        </div>
+
+    </div>
+</header>
+
+    <main>
+        <div class="container">
+            <section class="page-header">
+                <h1>Mapa de Saberes</h1>
+                <p>Clique em um ponto de destaque para aprender sobre os povos que ocupam o território.</p>
+            </section>
+
+            <section class="map-filters">
+                <a href="#" class="btn" onclick="showMap('mapa-indigenas', this)">Povos Indígenas (BR)</a>
+                <a href="#" class="btn active" onclick="showMap('mapa-bahia', this)">Povos da Bahia</a> <a href="#" class="btn" onclick="showMap('mapa-quilombolas', this)">Comunidades Quilombolas</a>
+                <a href="#" class="btn" onclick="showMap('mapa-africana', this)">História Africana</a>
+            </section>
+
+            <section class="map-container">
+                <a href="#" class="ponto ponto-1">
+                    <span class="tooltip">Povo Guarani-Kaiowá</span>
+                </a>
+                
+                <a href="#" class="ponto ponto-2">
+                    <span class="tooltip">Povo Yanomami</span>
+                </a>
+                
+                <a href="#" class="ponto ponto-3">
+                    <span class="tooltip">Povo Pataxó</span>
+                </a>
+
+                <a href="#" class="ponto ponto-4">
+                    <span class="tooltip">Povo Kiriri</span>
+                </a>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
