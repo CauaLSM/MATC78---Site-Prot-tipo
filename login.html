@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AfroEduca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        
+        <div class="header-left">
+            <a href="index.html" class="logo">Afro<span>Educa</span></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Início</a></li> 
+                    <li><a href="cursos.html">Cursos</a></li>
+                    <li><a href="materiais.html">Materiais</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="header-right">
+            <a href="login.html" class="btn">Login</a>
+        </div>
+
+    </div>
+</header>
+
+    <main>
+        <div class="login-container">
+            
+            <input type="radio" name="tab" id="tab-login-radio" checked>
+            <input type="radio" name="tab" id="tab-register-radio">
+
+            <div class="login-tabs">
+                <label for="tab-login-radio">Entrar</label>
+                <label for="tab-register-radio">Cadastrar-se</label>
+            </div>
+
+            <section id="form-login" class="form-section">
+                <form>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-senha">Senha</label>
+                        <input type="password" id="login-senha" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Entrar</button>
+                    </div>
+                    <div class="form-footer-link">
+                        <a href="#">Esqueci minha senha</a>
+                    </div>
+                </form>
+            </section>
+
+            <section id="form-register" class="form-section">
+                <form>
+                    <div class="form-group">
+                        <label for="reg-nome">Nome Completo</label>
+                        <input type="text" id="reg-nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</U></label>
+                        <input type="email" id="reg-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-senha">Criar Senha</label>
+                        <input type="password" id="reg-senha" required>
+                    </div>
+                    <div class="form-group-radio">
+                        <label>Eu sou:</label>
+                        <input type="radio" name="perfil" id="perfil-estudante" value="estudante">
+                        <label for="perfil-estudante">Estudante</label>
+                        
+                        <input type="radio" name="perfil" id="perfil-professor" value="professor">
+                        <label for="perfil-professor">Professor(a)</label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Criar Conta</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
