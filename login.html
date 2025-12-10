@@ -10,92 +10,216 @@
 
 <header>
     <div class="container">
-        
         <div class="header-left">
             <a href="index.html" class="logo">Afro<span>Educa</span></a>
-            
             <nav>
                 <ul>
-                    <li><a href="index.html" class="active">Início</a></li> 
+                    <li><a href="index.html">Início</a></li> 
                     <li><a href="cursos.html">Cursos</a></li>
                     <li><a href="materiais.html">Materiais</a></li>
                 </ul>
             </nav>
         </div>
-
         <div class="header-right">
-            <a href="login.html" class="btn-login">Login</a>
+            <a href="login.html" class="btn active">Login</a>
         </div>
-
     </div>
 </header>
 
-    <main>
-        <div class="login-container">
+<main>
+    <div class="login-container">
+        
+        <input type="radio" name="tab" id="tab-login-radio" checked>
+        <input type="radio" name="tab" id="tab-register-radio">
+
+        <div class="login-tabs">
+            <label for="tab-login-radio">Entrar</label>
+            <label for="tab-register-radio">Cadastrar-se</label>
+        </div>
+
+        <section id="form-login" class="form-section">
+            <form id="formLoginJS">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="ex: aluno@teste.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-senha">Senha</label>
+                    <input type="password" id="login-senha" required placeholder="******">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Entrar</button>
+                </div>
+                
+                <div class="form-footer-link">
+                    <p style="font-size: 12px; color: #666; margin-bottom: 5px;">Contas de Teste (Padrão):</p>
+                    <p style="font-size: 12px;"><strong>Prof:</strong> prof@teste.com | <strong>Senha:</strong> 123</p>
+                    <p style="font-size: 12px;"><strong>Aluno:</strong> aluno@teste.com | <strong>Senha:</strong> 123</p>
+                </div>
+            </form>
+        </section>
+
+        <section id="form-register" class="form-section">
+            <form id="formCadastroJS">
+                <div class="form-group">
+                    <label for="reg-nome">Nome Completo</label>
+                    <input type="text" id="reg-nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-senha">Criar Senha</label>
+                    <input type="password" id="reg-senha" required>
+                </div>
+                
+                <div class="form-group-radio">
+                    <label style="display: block; margin-bottom: 10px; font-weight: bold;">Eu sou:</label>
+                    
+                    <input type="radio" name="perfil" id="perfil-estudante" value="estudante" checked>
+                    <label for="perfil-estudante" style="font-weight: normal; margin-right: 15px;">Estudante</label>
+                    
+                    <input type="radio" name="perfil" id="perfil-professor" value="professor">
+                    <label for="perfil-professor" style="font-weight: normal;">Professor(a)</label>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn" id="btn-cadastrar">Criar Conta</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+        const navUl = document.querySelector('.header-left nav ul');
+        const headerRight = document.querySelector('.header-right');
+
+        if (usuarioLogado) {
+            // 1. Link Área do Professor
+            if (usuarioLogado.perfil === 'professor') {
+                const linkExistente = document.querySelector('a[href="professor.html"]');
+                if (!linkExistente) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
+                    navUl.appendChild(li);
+                }
+            }
+
+            // 2. Botão Sair + Saudação
+            headerRight.innerHTML = '';
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
+
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555';
             
-            <input type="radio" name="tab" id="tab-login-radio" checked>
-            <input type="radio" name="tab" id="tab-register-radio">
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); 
+                window.location.href = 'login.html'; 
+            };
 
-            <div class="login-tabs">
-                <label for="tab-login-radio">Entrar</label>
-                <label for="tab-register-radio">Cadastrar-se</label>
-            </div>
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
+        }
+    });
+</script>
 
-            <section id="form-login" class="form-section">
-                <form>
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-senha">Senha</label>
-                        <input type="password" id="login-senha" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn">Entrar</button>
-                    </div>
-                    <div class="form-footer-link">
-                        <a href="#">Esqueci minha senha</a>
-                    </div>
-                </form>
-            </section>
+<script>
+    // 1. Configuração Inicial (Cria usuários padrão se não existirem)
+    function inicializarBanco() {
+        if (!localStorage.getItem('afroeduca_users')) {
+            const usuariosPadrao = [
+                { nome: "Professor Teste", email: "prof@teste.com", senha: "123", perfil: "professor" },
+                { nome: "Aluno Teste", email: "aluno@teste.com", senha: "123", perfil: "estudante" }
+            ];
+            localStorage.setItem('afroeduca_users', JSON.stringify(usuariosPadrao));
+        }
+    }
+    inicializarBanco();
 
-            <section id="form-register" class="form-section">
-                <form>
-                    <div class="form-group">
-                        <label for="reg-nome">Nome Completo</label>
-                        <input type="text" id="reg-nome" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-email">Email</U></label>
-                        <input type="email" id="reg-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-senha">Criar Senha</label>
-                        <input type="password" id="reg-senha" required>
-                    </div>
-                    <div class="form-group-radio">
-                        <label>Eu sou:</label>
-                        <input type="radio" name="perfil" id="perfil-estudante" value="estudante">
-                        <label for="perfil-estudante">Estudante</label>
-                        
-                        <input type="radio" name="perfil" id="perfil-professor" value="professor">
-                        <label for="perfil-professor">Professor(a)</label>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn">Criar Conta</button>
-                    </div>
-                </form>
-            </section>
-        </div>
-    </main>
+    // 2. Lógica de Login
+    document.getElementById('formLoginJS').addEventListener('submit', function(e) {
+        e.preventDefault(); 
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+        const email = document.getElementById('login-email').value.trim();
+        const senha = document.getElementById('login-senha').value.trim();
+
+        const usuarios = JSON.parse(localStorage.getItem('afroeduca_users')) || [];
+        const usuarioEncontrado = usuarios.find(u => u.email === email && u.senha === senha);
+
+        if (usuarioEncontrado) {
+            localStorage.setItem('usuario_logado', JSON.stringify(usuarioEncontrado));
+            
+            // Redireciona conforme o perfil
+            if (usuarioEncontrado.perfil === 'professor') {
+                window.location.href = 'professor.html';
+            } else {
+                window.location.href = 'cursos.html';
+            }
+        } else {
+            alert("Email ou senha incorretos! Tente as contas de teste abaixo.");
+        }
+    });
+
+    // 3. Lógica de Cadastro
+    document.getElementById('btn-cadastrar').addEventListener('click', function(e) {
+        const form = document.getElementById('formCadastroJS');
+        
+        // Validação HTML padrão
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return; 
+        }
+        
+        e.preventDefault(); 
+
+        const nome = document.getElementById('reg-nome').value;
+        const email = document.getElementById('reg-email').value;
+        const senha = document.getElementById('reg-senha').value;
+        
+        // Pega o perfil selecionado
+        const perfilInput = document.querySelector('input[name="perfil"]:checked');
+        const perfil = perfilInput ? perfilInput.value : 'estudante';
+
+        const usuarios = JSON.parse(localStorage.getItem('afroeduca_users')) || [];
+
+        // Verifica email duplicado
+        if (usuarios.some(u => u.email === email)) {
+            alert("Este email já está cadastrado!");
+            return;
+        }
+
+        // Salva novo usuário
+        usuarios.push({ nome, email, senha, perfil });
+        localStorage.setItem('afroeduca_users', JSON.stringify(usuarios));
+
+        alert("Conta criada com sucesso! Agora faça login.");
+
+        // Limpa e troca para a aba de login
+        form.reset();
+        document.getElementById('tab-login-radio').checked = true;
+    });
+</script>
 
 </body>
 </html>
-
