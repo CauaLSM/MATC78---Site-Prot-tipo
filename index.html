@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AfroEduca - Início</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <header>
     <div class="container">
-        
         <div class="header-left">
             <a href="index.html" class="logo">Afro<span>Educa</span></a>
-            
             <nav>
                 <ul>
                     <li><a href="index.html" class="active">Início</a></li> 
@@ -22,111 +21,93 @@
                 </ul>
             </nav>
         </div>
-
         <div class="header-right">
             <button id="btn-tema" onclick="alternarTema()" title="Alternar Tema">
                 <i class="fas fa-moon"></i>
             </button>
             <a href="login.html" class="btn">Login</a>
         </div>
-
     </div>
 </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Conectando saberes, celebrando a diversidade.</h1>
-                <p>Uma plataforma interativa para o ensino das Relações Étnico-Raciais na escola.</p>
-                <img src="img/si_reinos-africanos.webp" alt="" class="hero-center-image">
-                <a href="cursos.html" class="btn">Explore os Cursos</a>
-            </div>
-        </section>
+<main>
+    <section class="hero">
+        <div class="container">
+            <h1>Conectando saberes, celebrando a diversidade.</h1>
+            <p>Uma plataforma interativa para o ensino das Relações Étnico-Raciais na escola.</p>
+            <a href="cursos.html" class="btn">Explore os Cursos</a>
+        </div>
+    </section>
 
-        <section class="missao">
-            <div class="container">
-                <h2>Nossa Missão</h2>
-                <p>A plataforma AfroEduca busca proporcionar experiências interativas e culturais para estudantes, professores e interessados externos, promovendo o ensino sobre diversidade, identidade e respeito, em acordo com as leis 10.639/03 e 11.645/08.</p>
-            </div>
-        </section>
+    <section class="missao">
+        <div class="container">
+            <h2>Nossa Missão</h2>
+            <p>A plataforma AfroEduca busca proporcionar experiências interativas e culturais para estudantes, professores e interessados externos, promovendo o ensino sobre diversidade, identidade e respeito.</p>
+        </div>
+    </section>
 
-        <section class="highlights">
-            <div class="container">
-                <h2>O que você encontra aqui</h2>
-                <div class="highlights-grid">
-                    <div class="card">
-                        <h3>Cursos Interativos</h3>
-                        <p class="inicio">Explore um mapa de saberes e conheça a história e cultura dos povos indígenas e afro-brasileiros.</p>
-                        <a href="cursos.html" class="btn btn-tp">Ver Cursos</a>
-                    </div>
-                    <div class="card">
-                        <h3>Espaço do Educador</h3>
-                        <p class="inicio">Encontre planos de aula, dinâmicas e materiais de apoio para aplicar a ERER em sala de aula.</p>
-                        <a href="materiais.html" class="btn btn-tp">Ver Materiais</a>
-                    </div>
-                    <div class="card">
-                        <h3>Comunidade</h3>
-                        <p class="inicio">Participe de fóruns culturais (em breve) e troque experiências com outros educadores e alunos.</p>
-                        <a href="#" class="btn btn-tp" style="background: #aaa;">Em Breve</a>
-                    </div>
+    <section class="highlights">
+        <div class="container">
+            <h2>O que você encontra aqui</h2>
+            <div class="highlights-grid">
+                <div class="card">
+                    <h3><i class="fas fa-map-marked-alt"></i> Cursos Interativos</h3>
+                    <p class ="inicio">Explore um mapa de saberes e conheça a história e cultura dos povos indígenas e afro-brasileiros.</p>
+                    <a href="cursos.html" class="btn">Ver Cursos</a>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Espaço do Educador</h3>
+                    <p class ="inicio">Encontre planos de aula, dinâmicas e materiais de apoio para aplicar a ERER em sala de aula.</p>
+                    <a href="materiais.html" class="btn">Ver Materiais</a>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-users"></i> Comunidade</h3>
+                    <p class ="inicio">Participe de fóruns culturais e troque experiências com outros educadores e alunos.</p>
+                    <a href="#" class="btn" style="background: #aaa;">Em Breve</a>
                 </div>
             </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
         </div>
-    </footer>
+    </section>
+</main>
 
-    <script>
+<footer>
+    <div class="container">
+        <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+    </div>
+</footer>
 
-        function alternarTema() {
+<script>
+    // --- 3. LÓGICA DO TEMA (DARK MODE) ---
+    function alternarTema() {
         const body = document.body;
-        const btn = document.getElementById('btn-tema');
-        
-        // Alterna a classe
         body.classList.toggle('dark-mode');
-        
-        // Salva a preferência
         const ehDark = body.classList.contains('dark-mode');
         localStorage.setItem('tema_escuro', ehDark);
-        
-        // Atualiza o ícone
         atualizarIconeTema(ehDark);
     }
 
     function atualizarIconeTema(ehDark) {
         const btn = document.getElementById('btn-tema');
         if (btn) {
-            if (ehDark) {
-                btn.innerHTML = '<i class="fas fa-sun"></i>'; // Mostra sol para voltar ao claro
-            } else {
-                btn.innerHTML = '<i class="fas fa-moon"></i>'; // Mostra lua para ir ao escuro
-            }
+            btn.innerHTML = ehDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         }
     }
-        
+
+    // --- SESSÃO E INICIALIZAÇÃO ---
     document.addEventListener('DOMContentLoaded', function() {
+        // Aplica o tema salvo ao carregar
+        const temaSalvo = localStorage.getItem('tema_escuro') === 'true';
+        if (temaSalvo) document.body.classList.add('dark-mode');
+        atualizarIconeTema(temaSalvo);
+
+        // Lógica de Usuário Logado
         const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
         const navUl = document.querySelector('.header-left nav ul');
         const headerRight = document.querySelector('.header-right');
-        const preferenciaDark = localStorage.getItem('tema_escuro') === 'true';
-        
-        if (preferenciaDark) {
-            document.body.classList.add('dark-mode');
-        }
-        atualizarIconeTema(preferenciaDark);
-    
 
         if (usuarioLogado) {
-            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
             if (usuarioLogado.perfil === 'professor') {
-                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
                 const linkExistente = document.querySelector('a[href="professor.html"]');
-                
                 if (!linkExistente) {
                     const li = document.createElement('li');
                     li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
@@ -134,42 +115,32 @@
                 }
             }
 
-            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
-            // Limpa a div da direita (remove o botão login padrão)
+            // Recria o botão de tema ao lado do nome do usuário
             headerRight.innerHTML = '';
-
-            // Cria a saudação
-            const saudacao = document.createElement('div');
-            saudacao.style.color = '#fff';
-            saudacao.style.marginRight = '20px';
-            saudacao.style.fontSize = '14px';
-            // Pega o primeiro nome
-            const primeiroNome = usuarioLogado.nome.split(' ')[0];
-            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
-
-            // Cria o botão Sair
-            const btnSair = document.createElement('a');
-            btnSair.href = '#';
-            btnSair.className = 'btn';
-            btnSair.innerText = 'Sair';
-            btnSair.style.padding = '5px 15px';
-            btnSair.style.fontSize = '14px';
-            btnSair.style.background = '#555'; // Cor cinza para diferenciar
             
-            // Lógica de Logout
-            btnSair.onclick = function(e) {
-                e.preventDefault();
-                localStorage.removeItem('usuario_logado'); // Limpa a sessão
-                window.location.href = 'login.html'; // Manda pro login
-            };
+            // Botão Tema
+            const btnTema = document.createElement('button');
+            btnTema.id = 'btn-tema';
+            btnTema.onclick = alternarTema;
+            btnTema.title = "Alternar Tema";
+            const ehDarkAgora = document.body.classList.contains('dark-mode');
+            btnTema.innerHTML = ehDarkAgora ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            headerRight.appendChild(btnTema);
 
-            // Adiciona os elementos no header
+            // Saudação
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff'; saudacao.style.marginRight = '20px'; saudacao.style.fontSize = '14px';
+            saudacao.innerHTML = `Olá, <strong>${usuarioLogado.nome.split(' ')[0]}</strong>`;
             headerRight.appendChild(saudacao);
+
+            // Botão Sair
+            const btnSair = document.createElement('a');
+            btnSair.href = '#'; btnSair.className = 'btn'; btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px'; btnSair.style.fontSize = '14px'; btnSair.style.background = '#555';
+            btnSair.onclick = function(e) { e.preventDefault(); localStorage.removeItem('usuario_logado'); window.location.href = 'login.html'; };
             headerRight.appendChild(btnSair);
         }
     });
 </script>
-
 </body>
 </html>
-
