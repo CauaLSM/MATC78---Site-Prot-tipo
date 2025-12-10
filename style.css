@@ -946,182 +946,107 @@ input[name="tab"] {
 }
 
 
+/* --- Botão de Tema (Ajuste Fino) --- */
 #btn-tema {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    width: 40px;
-    height: 40px;
+    background: transparent; /* Remove qualquer fundo cinza padrão */
+    border: 1px solid rgba(255,255,255,0.5); /* Borda mais visível */
+    color: #fff; /* Ícone branco */
+    width: 36px; /* Tamanho fixo */
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 18px;
-    display: flex;
+    font-size: 16px;
+    display: flex; /* Centraliza o ícone */
     justify-content: center;
     align-items: center;
     margin-right: 15px;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    padding: 0; /* Remove padding interno que pode deslocar o ícone */
 }
 
 #btn-tema:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.2);
     border-color: #fff;
+    transform: scale(1.1); /* Efeito de zoom leve */
 }
 
-/* --- CORES DO MODO ESCURO --- */
-body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-/* Elementos que ficam escuros */
-body.dark-mode .card, 
-body.dark-mode .material-card, 
-body.dark-mode .curso-content-area,
-body.dark-mode .curso-sidebar,
-body.dark-mode .curso-header-bar,
-body.dark-mode .materiais-toolbar,
-body.dark-mode .login-container,
-body.dark-mode .editor-box,
-body.dark-mode .modal-content,
-body.dark-mode .item-material {
-    background-color: #1e1e1e;
-    border-color: #333;
-    color: #e0e0e0;
-}
-
-/* Ajuste de Textos e Títulos */
-body.dark-mode h1, 
-body.dark-mode h2, 
-body.dark-mode h3, 
-body.dark-mode h4, 
-body.dark-mode strong {
-    color: #f4f4f4;
-}
-
-body.dark-mode .page-header p,
-body.dark-mode .texto-aula {
-    color: #bbb;
-}
-
-/* Inputs e Formulários */
-body.dark-mode input[type="text"],
-body.dark-mode input[type="email"],
-body.dark-mode input[type="password"],
-body.dark-mode input[type="search"],
-body.dark-mode select,
-body.dark-mode textarea {
-    background-color: #2d2d2d;
-    border-color: #444;
-    color: #fff;
-}
-
-body.dark-mode input:focus,
-body.dark-mode select:focus,
-body.dark-mode textarea:focus {
-    border-color: #F2AB27;
-}
-
-/* Sidebar e Listas */
-body.dark-mode .curso-sidebar li:hover {
-    background-color: #2d2d2d;
-}
-body.dark-mode .curso-sidebar li.active {
-    background-color: #F2AB27;
-    color: #121212;
-}
-
-/* Mapas e Containers Específicos */
-body.dark-mode .map-container {
-    background-color: #1e1e1e; /* Fundo do mapa escuro */
-    border-color: #F2AB27; /* Moldura vira dourada para contraste */
-}
-
-/* Ícones e Detalhes */
-body.dark-mode .material-icon {
-    background-color: #2d2d2d;
-}
-
-/* Login Tabs */
-body.dark-mode .login-tabs label {
-    background-color: #2d2d2d;
-    color: #888;
-    border-bottom: 1px solid #444;
-}
-body.dark-mode .login-tabs label:hover {
-    background-color: #333;
-}
-body.dark-mode #tab-login-radio:checked ~ .login-tabs label[for="tab-login-radio"],
-body.dark-mode #tab-register-radio:checked ~ .login-tabs label[for="tab-register-radio"] {
-    background-color: #1e1e1e;
-    color: #F2AB27;
-    border-bottom-color: #F2AB27;
-}
-
-/* --- ESTILOS DA ÁREA DE COMENTÁRIOS --- */
+/* --- Estilos Refinados dos Comentários --- */
 .comentarios-area {
-    margin-bottom: 20px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
 }
 
 .comentarios-area h3 {
     font-size: 20px;
     color: #2D2A2A;
     margin-bottom: 25px;
-    border-left: 4px solid #F2AB27;
-    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comentarios-area h3 i {
+    color: #F2AB27; /* Ícone dourado */
 }
 
 .comentario-item {
     display: flex;
-    gap: 15px;
+    gap: 15px; /* Espaço entre avatar e texto */
     margin-bottom: 20px;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 15px;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    background: #fff; /* Fundo branco para destacar do fundo cinza da página */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); /* Sombra sutil */
 }
 
 .avatar {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     background: #F2AB27;
     color: #2D2A2A;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
-    font-size: 18px;
-    flex-shrink: 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0; /* Impede que o avatar seja esmagado */
+    text-transform: uppercase; /* Garante letra maiúscula */
+}
+
+.comentario-conteudo {
+    flex-grow: 1; /* Ocupa o resto do espaço */
 }
 
 .comentario-conteudo h4 {
     font-size: 15px;
-    color: #8C1C13;
+    color: #333;
     margin-bottom: 5px;
     font-weight: 700;
-}
-
-.comentario-conteudo p {
-    font-size: 15px;
-    color: #555;
-    line-height: 1.5;
+    display: flex;
+    justify-content: space-between; /* Data vai para a direita */
+    align-items: center;
 }
 
 .comentario-data {
     font-size: 12px;
     color: #999;
-    margin-left: 10px;
-    font-weight: normal;
+    font-weight: 400;
 }
 
+.comentario-conteudo p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Área de Novo Comentário */
 .novo-comentario-box {
     margin-top: 30px;
-    background: #f9f9f9;
+    background: #fdfdfd;
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #eee;
@@ -1129,29 +1054,33 @@ body.dark-mode #tab-register-radio:checked ~ .login-tabs label[for="tab-register
 
 .novo-comentario-box textarea {
     width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 12px;
     min-height: 80px;
-    font-family: 'Lato', sans-serif;
-    margin-bottom: 10px;
+    font-family: inherit;
     resize: vertical;
+    margin-bottom: 10px;
     font-size: 14px;
 }
 
 .novo-comentario-box textarea:focus {
     border-color: #F2AB27;
     outline: none;
-    background: #fff;
+    box-shadow: 0 0 0 2px rgba(242, 171, 39, 0.1);
 }
 
-/* Suporte ao Dark Mode para Comentários */
-body.dark-mode .comentarios-area h3 { color: #fff; }
-body.dark-mode .comentario-item { border-bottom-color: #333; }
-body.dark-mode .comentario-conteudo h4 { color: #F2AB27; }
+/* Dark Mode Ajustes */
+body.dark-mode .comentario-item {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+body.dark-mode .comentario-conteudo h4 { color: #f4f4f4; }
 body.dark-mode .comentario-conteudo p { color: #ccc; }
-body.dark-mode .novo-comentario-box { background-color: #2d2d2d; border-color: #444; }
-body.dark-mode .novo-comentario-box textarea { background-color: #1e1e1e; border-color: #444; color: #fff; }
+body.dark-mode .novo-comentario-box {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
 
 footer {
     background: #2D2A2A;
@@ -1239,5 +1168,6 @@ footer {
         height: 200px;
     }
 }
+
 
 
