@@ -24,7 +24,7 @@
         </div>
 
         <div class="header-right">
-            <a href="login.html" class="btn-login">Login</a>
+            <a href="login.html" class="btn">Login</a>
         </div>
 
     </div>
@@ -53,18 +53,18 @@
                 <div class="highlights-grid">
                     <div class="card">
                         <h3>Cursos Interativos</h3>
-                        <p>Explore um mapa de saberes e conheça a história e cultura dos povos indígenas e afro-brasileiros.</p>
-                        <a href="cursos.html" class="btn">Ver Cursos</a>
+                        <p class="inicio">Explore um mapa de saberes e conheça a história e cultura dos povos indígenas e afro-brasileiros.</p>
+                        <a href="cursos.html" class="btn btn-tp">Ver Cursos</a>
                     </div>
                     <div class="card">
                         <h3>Espaço do Educador</h3>
-                        <p>Encontre planos de aula, dinâmicas e materiais de apoio para aplicar a ERER em sala de aula.</p>
-                        <a href="materiais.html" class="btn">Ver Materiais</a>
+                        <p class="inicio">Encontre planos de aula, dinâmicas e materiais de apoio para aplicar a ERER em sala de aula.</p>
+                        <a href="materiais.html" class="btn btn-tp">Ver Materiais</a>
                     </div>
                     <div class="card">
                         <h3>Comunidade</h3>
-                        <p>Participe de fóruns culturais (em breve) e troque experiências com outros educadores e alunos.</p>
-                        <a href="#" class="btn" style="background: #aaa;">Em Breve</a>
+                        <p class="inicio">Participe de fóruns culturais (em breve) e troque experiências com outros educadores e alunos.</p>
+                        <a href="#" class="btn btn-tp" style="background: #aaa;">Em Breve</a>
                     </div>
                 </div>
             </div>
@@ -78,6 +78,60 @@
         </div>
     </footer>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+        const navUl = document.querySelector('.header-left nav ul');
+        const headerRight = document.querySelector('.header-right');
+
+        if (usuarioLogado) {
+            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
+            if (usuarioLogado.perfil === 'professor') {
+                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
+                const linkExistente = document.querySelector('a[href="professor.html"]');
+                
+                if (!linkExistente) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
+                    navUl.appendChild(li);
+                }
+            }
+
+            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
+            // Limpa a div da direita (remove o botão login padrão)
+            headerRight.innerHTML = '';
+
+            // Cria a saudação
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            // Pega o primeiro nome
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
+
+            // Cria o botão Sair
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555'; // Cor cinza para diferenciar
+            
+            // Lógica de Logout
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); // Limpa a sessão
+                window.location.href = 'login.html'; // Manda pro login
+            };
+
+            // Adiciona os elementos no header
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
+        }
+    });
+</script>
+
 </body>
 </html>
-
