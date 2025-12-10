@@ -90,9 +90,11 @@
                     <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
                     <div class="comentarios-area">
                         <h3><i class="fas fa-comments"></i> Dúvidas e Comentários</h3>
+                        
                         <div id="lista-comentarios"></div>
+                        
                         <div class="novo-comentario-box">
-                            <textarea id="texto-comentario" placeholder="Escreva sua dúvida ou comentário aqui..."></textarea>
+                            <textarea id="texto-comentario" placeholder="Tem alguma dúvida ou contribuição? Escreva aqui..."></textarea>
                             <button class="btn secondary" onclick="postarComentario()">
                                 <i class="fas fa-paper-plane"></i> Enviar Comentário
                             </button>
@@ -127,7 +129,7 @@
             tipo: 'video',
             titulo: '1. Vídeo: A Força da Terra',
             icone: 'fa-play-circle',
-            capa: 'img/meio_ambiente.jpg', // Certifique-se que esta imagem existe
+            capa: 'img/meio_ambiente.jpg', // Certifique-se que existe
             conteudo: `
                 <span class="tag-curso">Vídeo Aula</span>
                 <h1>Documentário: A Força da Terra</h1>
@@ -146,14 +148,14 @@
                 <span class="tag-curso">Leitura</span>
                 <h1>Origens e Território</h1>
                 <div class="texto-aula">
-                    <p>O povo Pataxó vive em diversas aldeias no extremo sul do estado da Bahia e norte de Minas Gerais. O contato com os não-índios foi marcado pela resistência e pela luta constante pela demarcação de suas terras.</p>
+                    <p>O povo Pataxó vive em diversas aldeias no extremo sul do estado da Bahia e norte de Minas Gerais. O contato com os não-índios foi marcado pela resistência.</p>
                     <p><strong>Pontos Chave:</strong></p>
                     <ul>
                         <li>Localização: Extremo Sul da Bahia.</li>
                         <li>Símbolo de Resistência: Monte Pascoal.</li>
                         <li>Língua: Patxohã (em processo de retomada).</li>
                     </ul>
-                    <p>A região do Monte Pascoal é considerada sagrada e um marco histórico fundamental para a compreensão da história do Brasil sob a ótica dos povos originários.</p>
+                    <p>A região do Monte Pascoal é considerada sagrada e um marco histórico fundamental para a compreensão da história do Brasil.</p>
                 </div>
             `
         },
@@ -232,7 +234,7 @@
         carregarPasso();
         gerarSidebar();
         window.scrollTo(0,0);
-        renderizarComentarios(); // Carrega comentários
+        renderizarComentarios(); // Carrega comentários ao abrir
     }
 
     function fecharCurso() {
@@ -336,10 +338,13 @@
     function renderizarComentarios() {
         const lista = document.getElementById('lista-comentarios');
         lista.innerHTML = '';
+
         comentariosMock.forEach(c => {
+            const inicial = c.nome.charAt(0);
+            
             const html = `
                 <div class="comentario-item">
-                    <div class="avatar">${c.nome.charAt(0)}</div>
+                    <div class="avatar">${inicial}</div>
                     <div class="comentario-conteudo">
                         <h4>${c.nome} <span class="comentario-data">${c.data}</span></h4>
                         <p>${c.texto}</p>
@@ -353,10 +358,17 @@
     function postarComentario() {
         const input = document.getElementById('texto-comentario');
         const texto = input.value.trim();
+
         if (texto) {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
             const nomeAutor = usuarioLogado ? usuarioLogado.nome : "Você";
-            comentariosMock.unshift({ nome: nomeAutor, texto: texto, data: "Agora mesmo" });
+
+            comentariosMock.unshift({
+                nome: nomeAutor,
+                texto: texto,
+                data: "Agora mesmo"
+            });
+
             input.value = '';
             renderizarComentarios();
         } else {
@@ -368,8 +380,10 @@
     function alternarTema() {
         const body = document.body;
         body.classList.toggle('dark-mode');
+        
         const ehDark = body.classList.contains('dark-mode');
         localStorage.setItem('tema_escuro', ehDark);
+        
         atualizarIconeTema(ehDark);
     }
 
@@ -382,12 +396,14 @@
 
     // --- 6. SESSÃO E INICIALIZAÇÃO ---
     document.addEventListener('DOMContentLoaded', function() {
-        // Tema
+        // Aplica o tema salvo
         const temaSalvo = localStorage.getItem('tema_escuro') === 'true';
-        if (temaSalvo) document.body.classList.add('dark-mode');
+        if (temaSalvo) {
+            document.body.classList.add('dark-mode');
+        }
         atualizarIconeTema(temaSalvo);
 
-        // Sessão de Usuário
+        // Lógica de Usuário Logado
         const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
         const navUl = document.querySelector('.header-left nav ul');
         const headerRight = document.querySelector('.header-right');
@@ -402,21 +418,43 @@
                 }
             }
 
-            // Preserva o botão de tema ao recriar o header
-            const btnTema = document.getElementById('btn-tema');
+            // RECRIA O BOTÃO DE TEMA E ADICIONA SAUDAÇÃO
+            const btnTema = document.createElement('button');
+            btnTema.id = 'btn-tema';
+            btnTema.onclick = alternarTema;
+            btnTema.title = "Alternar Tema";
+            const ehDarkAgora = document.body.classList.contains('dark-mode');
+            btnTema.innerHTML = ehDarkAgora ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+            // Limpa o header (tira o botão Login padrão)
             headerRight.innerHTML = '';
-            headerRight.appendChild(btnTema); // Adiciona o botão de tema de volta
+            
+            // Adiciona o botão de tema de volta
+            headerRight.appendChild(btnTema);
 
             const saudacao = document.createElement('div');
-            saudacao.style.color = '#fff'; saudacao.style.marginRight = '20px'; saudacao.style.fontSize = '14px';
-            saudacao.innerHTML = `Olá, <strong>${usuarioLogado.nome.split(' ')[0]}</strong>`;
-            
-            const btnSair = document.createElement('a');
-            btnSair.href = '#'; btnSair.className = 'btn'; btnSair.innerText = 'Sair';
-            btnSair.style.padding = '5px 15px'; btnSair.style.fontSize = '14px'; btnSair.style.background = '#555';
-            btnSair.onclick = function(e) { e.preventDefault(); localStorage.removeItem('usuario_logado'); window.location.href = 'login.html'; };
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
 
-            headerRight.appendChild(saudacao); headerRight.appendChild(btnSair);
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555';
+            
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); 
+                window.location.href = 'login.html'; 
+            };
+
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
         }
     });
 </script>
