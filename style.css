@@ -945,6 +945,118 @@ input[name="tab"] {
     gap: 15px;
 }
 
+
+#btn-tema {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    transition: all 0.3s;
+}
+
+#btn-tema:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #fff;
+}
+
+/* --- CORES DO MODO ESCURO --- */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Elementos que ficam escuros */
+body.dark-mode .card, 
+body.dark-mode .material-card, 
+body.dark-mode .curso-content-area,
+body.dark-mode .curso-sidebar,
+body.dark-mode .curso-header-bar,
+body.dark-mode .materiais-toolbar,
+body.dark-mode .login-container,
+body.dark-mode .editor-box,
+body.dark-mode .modal-content,
+body.dark-mode .item-material {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+/* Ajuste de Textos e Títulos */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode strong {
+    color: #f4f4f4;
+}
+
+body.dark-mode .page-header p,
+body.dark-mode .texto-aula {
+    color: #bbb;
+}
+
+/* Inputs e Formulários */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="search"],
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #fff;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    border-color: #F2AB27;
+}
+
+/* Sidebar e Listas */
+body.dark-mode .curso-sidebar li:hover {
+    background-color: #2d2d2d;
+}
+body.dark-mode .curso-sidebar li.active {
+    background-color: #F2AB27;
+    color: #121212;
+}
+
+/* Mapas e Containers Específicos */
+body.dark-mode .map-container {
+    background-color: #1e1e1e; /* Fundo do mapa escuro */
+    border-color: #F2AB27; /* Moldura vira dourada para contraste */
+}
+
+/* Ícones e Detalhes */
+body.dark-mode .material-icon {
+    background-color: #2d2d2d;
+}
+
+/* Login Tabs */
+body.dark-mode .login-tabs label {
+    background-color: #2d2d2d;
+    color: #888;
+    border-bottom: 1px solid #444;
+}
+body.dark-mode .login-tabs label:hover {
+    background-color: #333;
+}
+body.dark-mode #tab-login-radio:checked ~ .login-tabs label[for="tab-login-radio"],
+body.dark-mode #tab-register-radio:checked ~ .login-tabs label[for="tab-register-radio"] {
+    background-color: #1e1e1e;
+    color: #F2AB27;
+    border-bottom-color: #F2AB27;
+}
+
 footer {
     background: #2D2A2A;
     color: #bbb; 
@@ -1031,3 +1143,4 @@ footer {
         height: 200px;
     }
 }
+
