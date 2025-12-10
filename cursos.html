@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Saberes - AfroEduca</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <header>
     <div class="container">
-        
         <div class="header-left">
             <a href="index.html" class="logo">Afro<span>Educa</span></a>
-            
             <nav>
                 <ul>
                     <li><a href="index.html">Início</a></li> 
@@ -22,55 +21,368 @@
                 </ul>
             </nav>
         </div>
-
         <div class="header-right">
-            <a href="login.html" class="btn-login">Login</a>
+            <a href="login.html" class="btn">Login</a>
         </div>
-
     </div>
 </header>
 
-    <main>
-        <div class="container">
+<main>
+    <div class="container">
+        
+        <div id="area-mapa">
             <section class="page-header">
-                <h1>Mapa de Saberes</h1>
-                <p>Clique em um ponto de destaque para aprender sobre os povos que ocupam o território.</p>
+                <h1>Territórios Ancestrais: Bahia</h1>
+                <p>Selecione um território demarcado para iniciar a trilha de conhecimento.</p>
             </section>
 
-            <section class="map-filters">
-                <a href="#" class="btn" onclick="showMap('mapa-indigenas', this)">Povos Indígenas (BR)</a>
-                <a href="#" class="btn active" onclick="showMap('mapa-bahia', this)">Povos da Bahia</a> <a href="#" class="btn" onclick="showMap('mapa-quilombolas', this)">Comunidades Quilombolas</a>
-                <a href="#" class="btn" onclick="showMap('mapa-africana', this)">História Africana</a>
-            </section>
-
-            <section class="map-container">
-                <a href="#" class="ponto ponto-1">
-                    <span class="tooltip">Povo Guarani-Kaiowá</span>
+            <section class="map-container mapa-bahia-foco">
+                <a href="#" class="ponto ponto-tuxa" onclick="abrirCurso('Povo Tuxá')">
+                    <div class="tooltip"><strong>Povo Tuxá</strong><br><small>Clique para iniciar</small></div>
                 </a>
-                
-                <a href="#" class="ponto ponto-2">
-                    <span class="tooltip">Povo Yanomami</span>
+                <a href="#" class="ponto ponto-kiriri" onclick="abrirCurso('Povo Kiriri')">
+                    <div class="tooltip"><strong>Povo Kiriri</strong><br><small>Clique para iniciar</small></div>
                 </a>
-                
-                <a href="#" class="ponto ponto-3">
-                    <span class="tooltip">Povo Pataxó</span>
+                <a href="#" class="ponto ponto-tupinamba" onclick="abrirCurso('Povo Tupinambá')">
+                    <div class="tooltip"><strong>Povo Tupinambá</strong><br><small>Clique para iniciar</small></div>
                 </a>
-
-                <a href="#" class="ponto ponto-4">
-                    <span class="tooltip">Povo Kiriri</span>
+                <a href="#" class="ponto ponto-pataxo" onclick="abrirCurso('Povo Pataxó')">
+                    <div class="tooltip"><strong>Povo Pataxó</strong><br><small>Clique para iniciar</small></div>
                 </a>
             </section>
-
         </div>
-    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+        <div id="area-curso" style="display: none;">
+            
+            <div class="curso-top-nav">
+                <button class="btn-voltar-simples" onclick="fecharCurso()">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Mapa
+                </button>
+                <span class="breadcrumbs">Cursos > Bahia > <strong id="nome-povo-breadcrumb">Povo Pataxó</strong></span>
+            </div>
+
+            <div class="curso-header-bar">
+                <div class="curso-info-titulo">
+                    <h2 id="titulo-aula-atual">Introdução</h2>
+                </div>
+                <div class="curso-progresso">
+                    <span id="progresso-texto">0%</span>
+                    <div class="progress-bg">
+                        <div class="progress-fill" id="barra-progresso" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="curso-grid">
+                <aside class="curso-sidebar">
+                    <h3>Conteúdo do Módulo</h3>
+                    <ul id="lista-atividades">
+                        </ul>
+                </aside>
+
+                <section class="curso-content-area">
+                    <div id="conteudo-dinamico">
+                        
+                        </div>
+
+                    <div class="curso-nav-buttons">
+                        <button id="btn-anterior" class="btn-nav secondary" onclick="navegar(-1)" disabled>
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <button id="btn-proximo" class="btn-nav primary" onclick="navegar(1)">
+                            Próximo <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </section>
+            </div>
         </div>
-    </footer>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 AfroEduca. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    // DADOS DO CURSO (Conteúdo separado por passos)
+    const cursoDados = [
+        {
+            tipo: 'video',
+            titulo: '1. Vídeo: A Força da Terra',
+            icone: 'fa-play-circle',
+            capa: 'img/meio-ambiente.jpg',
+            conteudo: `
+                <span class="tag-curso">Vídeo Aula</span>
+                <h1>Documentário: A Força da Terra</h1>
+                <div class="video-placeholder" id="video-capa-dinamica">
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                    <p>Clique para assistir</p>
+                </div>
+                <p>Nesta aula introdutória, conheceremos o território sagrado do Monte Pascoal.</p>
+            `
+        },
+        {
+            tipo: 'texto',
+            titulo: '2. Leitura: Origens e Território',
+            icone: 'fa-book-open',
+            conteudo: `
+                <span class="tag-curso">Leitura</span>
+                <h1>Origens e Território</h1>
+                <div class="texto-aula">
+                    <p>O povo Pataxó vive em diversas aldeias no extremo sul do estado da Bahia e norte de Minas Gerais. O contato com os não-índios foi marcado pela resistência e pela luta constante pela demarcação de suas terras.</p>
+                    <p><strong>Pontos Chave:</strong></p>
+                    <ul>
+                        <li>Localização: Extremo Sul da Bahia.</li>
+                        <li>Símbolo de Resistência: Monte Pascoal.</li>
+                        <li>Língua: Patxohã (em processo de retomada).</li>
+                    </ul>
+                    <p>A região do Monte Pascoal é considerada sagrada e um marco histórico fundamental para a compreensão da história do Brasil sob a ótica dos povos originários.</p>
+                </div>
+            `
+        },
+        {
+            tipo: 'quiz',
+            titulo: '3. Quiz: Fixação',
+            icone: 'fa-question-circle',
+            conteudo: `
+                <span class="tag-curso">Exercício</span>
+                <h1>Desafio do Conhecimento</h1>
+                <div class="quiz-container">
+                    <p><strong>Qual região é considerada sagrada para o povo Pataxó?</strong></p>
+                    
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="a"> 
+                            Chapada Diamantina
+                        </label>
+                        
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="b"> 
+                            Monte Pascoal
+                        </label>
+                        
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="c"> 
+                            Rio São Francisco
+                        </label>
+                    </div>
+
+                    <div id="feedback-quiz" class="resultado-quiz"></div>
+
+                    <button class="btn" style="margin-top: 20px;" onclick="verificarResposta('b')">
+                        Enviar Resposta
+                    </button>
+                </div>
+            `
+        },
+        {
+            tipo: 'material',
+            titulo: 'Materiais Complementares', // Título na Sidebar
+            icone: 'fa-folder-open',
+            conteudo: `
+                <span class="tag-curso">Downloads</span>
+                <h1>Materiais de Apoio</h1>
+                <div class="texto-aula">
+                    <p>Aprofunde seus conhecimentos com os arquivos selecionados pelo professor.</p>
+                    
+                    <div class="lista-materiais">
+                        <a href="#" class="item-material">
+                            <i class="fas fa-file-pdf"></i>
+                            <div>
+                                <strong>Mapa Histórico 1800.pdf</strong>
+                                <small>Cartografia histórica da região sul.</small>
+                            </div>
+                            <span class="btn-download"><i class="fas fa-download"></i></span>
+                        </a>
+
+                        <a href="#" class="item-material">
+                            <i class="fas fa-link"></i>
+                            <div>
+                                <strong>Artigo: A retomada da língua Patxohã</strong>
+                                <small>Link externo para leitura acadêmica.</small>
+                            </div>
+                            <span class="btn-download"><i class="fas fa-external-link-alt"></i></span>
+                        </a>
+                    </div>
+                </div>
+            `
+        }
+    ];
+
+    let passoAtual = 0;
+
+    function abrirCurso(nomePovo) {
+        document.getElementById('area-mapa').style.display = 'none';
+        document.getElementById('area-curso').style.display = 'block';
+        document.getElementById('nome-povo-breadcrumb').innerText = nomePovo;
+        
+        // Reseta para o primeiro passo
+        passoAtual = 0;
+        carregarPasso();
+        gerarSidebar();
+        window.scrollTo(0,0);
+    }
+
+    function fecharCurso() {
+        document.getElementById('area-curso').style.display = 'none';
+        document.getElementById('area-mapa').style.display = 'block';
+    }
+
+    function carregarPasso() {
+        const dados = cursoDados[passoAtual];
+        
+        // 1. Injeta o conteúdo HTML
+        document.getElementById('conteudo-dinamico').innerHTML = dados.conteudo;
+        
+        // NOVO: Se for um vídeo, aplica a imagem de capa específica
+        if (dados.tipo === 'video' && dados.capa) {
+            const videoElem = document.getElementById('video-capa-dinamica');
+            if (videoElem) {
+                // Aplica o gradiente escuro + a imagem definida nos dados
+                videoElem.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${dados.capa}')`;
+            }
+        }
+        
+        // 2. Atualiza Títulos
+        document.getElementById('titulo-aula-atual').innerText = dados.titulo;
+
+        // ... (Restante da função carregarPasso continua igual: botões, progresso, sidebar)
+        document.getElementById('btn-anterior').disabled = (passoAtual === 0);
+        
+        const btnProximo = document.getElementById('btn-proximo');
+        if (passoAtual === cursoDados.length - 1) {
+            btnProximo.innerHTML = 'Concluir <i class="fas fa-check"></i>';
+            btnProximo.classList.add('finish');
+        } else {
+            btnProximo.innerHTML = 'Próximo <i class="fas fa-chevron-right"></i>';
+            btnProximo.classList.remove('finish');
+        }
+
+        const porcentagem = Math.round(((passoAtual + 1) / cursoDados.length) * 100);
+        document.getElementById('barra-progresso').style.width = porcentagem + '%';
+        document.getElementById('progresso-texto').innerText = porcentagem + '%';
+
+        atualizarSidebarUI();
+    }
+
+    function navegar(direcao) {
+        const novoPasso = passoAtual + direcao;
+        if (novoPasso >= 0 && novoPasso < cursoDados.length) {
+            passoAtual = novoPasso;
+            carregarPasso();
+            window.scrollTo(0,0);
+        } else if (novoPasso >= cursoDados.length) {
+            alert("Parabéns! Você concluiu este módulo.");
+            fecharCurso();
+        }
+    }
+
+    function irParaPasso(index) {
+        passoAtual = index;
+        carregarPasso();
+    }
+
+    function gerarSidebar() {
+        const lista = document.getElementById('lista-atividades');
+        lista.innerHTML = ''; // Limpa
+        
+        cursoDados.forEach((item, index) => {
+            const li = document.createElement('li');
+            li.id = `sidebar-item-${index}`;
+            li.onclick = () => irParaPasso(index);
+            li.innerHTML = `<i class="fas ${item.icone}"></i> ${item.titulo}`;
+            lista.appendChild(li);
+        });
+        atualizarSidebarUI();
+    }
+
+    function atualizarSidebarUI() {
+        // Remove active de todos
+        const itens = document.querySelectorAll('#lista-atividades li');
+        itens.forEach(item => item.classList.remove('active'));
+        
+        // Adiciona ao atual
+        const atual = document.getElementById(`sidebar-item-${passoAtual}`);
+        if(atual) atual.classList.add('active');
+    }
+
+    function verificarResposta(respostaCorreta) {
+        // 1. Pega o elemento que foi marcado
+        const selecionado = document.querySelector('input[name="q1"]:checked');
+        const divFeedback = document.getElementById('feedback-quiz');
+
+        // 2. Validação: Usuário não marcou nada
+        if (!selecionado) {
+            alert("Por favor, selecione uma alternativa.");
+            return;
+        }
+
+        // 3. Verifica se acertou
+        if (selecionado.value === respostaCorreta) {
+            divFeedback.innerHTML = '<i class="fas fa-check-circle"></i> Parabéns! Você acertou. O Monte Pascoal é o símbolo de resistência Pataxó.';
+            divFeedback.className = 'resultado-quiz sucesso';
+        } else {
+            divFeedback.innerHTML = '<i class="fas fa-times-circle"></i> Resposta incorreta. Tente novamente!';
+            divFeedback.className = 'resultado-quiz erro';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+        const navUl = document.querySelector('.header-left nav ul');
+        const headerRight = document.querySelector('.header-right');
+
+        if (usuarioLogado) {
+            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
+            if (usuarioLogado.perfil === 'professor') {
+                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
+                const linkExistente = document.querySelector('a[href="professor.html"]');
+                
+                if (!linkExistente) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
+                    navUl.appendChild(li);
+                }
+            }
+
+            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
+            // Limpa a div da direita (remove o botão login padrão)
+            headerRight.innerHTML = '';
+
+            // Cria a saudação
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            // Pega o primeiro nome
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
+
+            // Cria o botão Sair
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555'; // Cor cinza para diferenciar
+            
+            // Lógica de Logout
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); // Limpa a sessão
+                window.location.href = 'login.html'; // Manda pro login
+            };
+
+            // Adiciona os elementos no header
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
+        }
+    });
+</script>
 
 </body>
 </html>
-
-
