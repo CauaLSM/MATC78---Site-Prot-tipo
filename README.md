@@ -52,19 +52,6 @@ A plataforma foca na **Bahia** como ponto de partida para explorar territórios 
 
 ---
 
-## 📸 Screenshots
-
-| Tela Inicial | Mapa de Saberes |
-|:---:|:---:|
-| <img src="img/print_home.png" alt="Home" width="400"> | <img src="img/print_mapa.png" alt="Mapa" width="400"> |
-
-| Área do Curso | Painel do Professor |
-|:---:|:---:|
-| <img src="img/print_curso.png" alt="Curso" width="400"> | <img src="img/print_admin.png" alt="Admin" width="400"> |
-
-> *Nota: Adicione as imagens na pasta `img` do seu repositório para que apareçam aqui.*
-
----
 
 ## 🚀 Tecnologias Utilizadas
 
