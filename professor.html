@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor - AfroEduca</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Estilos específicos desta página */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .curso-card-admin {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px; /* Um pouco mais alto para caber os botões */
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curso-card-admin:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #F2AB27;
+        }
+
+        .card-add-new {
+            border: 2px dashed #F2AB27;
+            background: #fffcf0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #8C1C13;
+        }
+
+        .card-add-new:hover { background: #fff; border-style: solid; }
+        .card-add-new i { font-size: 40px; margin-bottom: 10px; }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .status-ativo { background: #d4edda; color: #155724; }
+        .status-rascunho { background: #fff3cd; color: #856404; }
+
+        /* Área do Editor */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .mapa-seletor {
+            position: relative;
+            cursor: crosshair;
+            border: 4px solid #2D2A2A;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .mapa-seletor img { width: 100%; display: block; }
+
+        #pino-temp {
+            position: absolute;
+            width: 20px; height: 20px;
+            background: #8C1C13;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            display: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .editor-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .form-section-title {
+            background: #f4f4f4;
+            padding: 10px;
+            margin: 20px 0 10px 0;
+            border-left: 4px solid #F2AB27;
+            font-weight: bold;
+            color: #2D2A2A;
+            font-size: 14px;
+        }
+
+        .coord-display {
+            background: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        textarea {
+            width: 100%; padding: 12px; border: 1px solid #ccc;
+            border-radius: 4px; font-family: 'Lato', sans-serif;
+            resize: vertical; min-height: 80px;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-left">
+            <a href="index.html" class="logo">Afro<span>Educa</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li> 
+                    <li><a href="cursos.html">Cursos</a></li>
+                    <li><a href="materiais.html">Materiais</a></li>
+                    <li><a href="professor.html" class="active" style="border-bottom: 2px solid #fff;">Área do Professor</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div style="color: #fff; margin-right: 20px; font-size: 14px;">Olá, <strong>Prof. Ana</strong></div>
+            <a href="login.html" class="btn" style="padding: 5px 15px; font-size: 14px; background: #555;">Sair</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        
+        <div id="painel-dashboard">
+            <section class="page-header" style="text-align: left; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1>Gerenciamento de Cursos</h1>
+                        <p>Edite os módulos existentes ou adicione novos territórios ao mapa.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <div class="curso-card-admin card-add-new" onclick="abrirEditorNovo()">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Criar Novo Curso</h3>
+                </div>
+
+                <div class="curso-card-admin">
+                    <div>
+                        <span class="status-badge status-ativo">Publicado</span>
+                        <h3>Povo Pataxó</h3>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">Extremo Sul da Bahia</p>
+                        <p style="font-size: 12px; color: #999; margin-top: 10px;"><i class="fas fa-layer-group"></i> 4 Módulos</p>
+                    </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn secondary" style="padding: 6px 12px; font-size: 13px;" onclick="preencherEditorPataxo()">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="curso-card-admin">
+                    <div>
+                        <span class="status-badge status-rascunho">Rascunho</span>
+                        <h3>Quilombo Rio das Rãs</h3>
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">Região do Velho Chico</p>
+                        <p style="font-size: 12px; color: #999; margin-top: 10px;"><i class="fas fa-layer-group"></i> 1 Módulo</p>
+                    </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn secondary" style="padding: 6px 12px; font-size: 13px;">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="painel-editor" class="hidden">
+            
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <button class="btn-voltar-simples" onclick="fecharEditor()">
+                    <i class="fas fa-arrow-left"></i> Voltar para Lista de Cursos
+                </button>
+            </div>
+
+            <div class="admin-grid">
+                <div>
+                    <h3>1. Localização no Mapa</h3>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Clique para reposicionar o pino do território.</p>
+                    
+                    <div class="mapa-seletor" id="area-clique">
+                        <img src="img/bahia_completa.png" alt="Mapa da Bahia">
+                        <div id="pino-temp"></div>
+                    </div>
+                    
+                    <div class="coord-display" style="margin-top: 10px;">
+                        <span>📍 Coordenadas:</span>
+                        <span>Top: <b id="val-top">0%</b> | Left: <b id="val-left">0%</b></span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="editor-box">
+                        <h3 id="titulo-editor">Novo Curso</h3>
+                        <form onsubmit="salvarCurso(event)" id="form-curso">
+                            
+                            <div class="form-group">
+                                <label>Nome do Povo / Território</label>
+                                <input type="text" id="campo-nome" placeholder="Ex: Povo Tupinambá" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Região Geográfica</label>
+                                <input type="text" id="campo-regiao" placeholder="Ex: Litoral Sul">
+                            </div>
+
+                            <div class="form-section-title"><i class="fas fa-video"></i> Módulo 1: Vídeo</div>
+                            <div class="form-group">
+                                <label>Título do Vídeo</label>
+                                <input type="text" id="campo-video-titulo" placeholder="Ex: Documentário Oficial">
+                            </div>
+                            <div class="form-group">
+                                <label>Link da Imagem de Capa</label>
+                                <input type="text" id="campo-video-capa" placeholder="img/...">
+                            </div>
+
+                            <div class="form-section-title"><i class="fas fa-book-open"></i> Módulo 2: Leitura</div>
+                            <div class="form-group">
+                                <label>Conteúdo (HTML)</label>
+                                <textarea id="campo-texto" placeholder="Escreva o texto histórico..."></textarea>
+                            </div>
+
+                            <div class="form-section-title"><i class="fas fa-question-circle"></i> Módulo 3: Quiz</div>
+                            <div class="form-group">
+                                <label>Pergunta</label>
+                                <input type="text" id="campo-quiz-pergunta" placeholder="Ex: Qual o ano...?">
+                            </div>
+
+                            <div class="form-section-title"><i class="fas fa-folder-open"></i> Módulo 4: Materiais</div>
+                            <div class="form-group">
+                                <label>Link do PDF</label>
+                                <input type="text" id="campo-pdf" placeholder="URL do arquivo">
+                            </div>
+
+                            <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 AfroEduca. Plataforma Administrativa.</p>
+    </div>
+</footer>
+
+<script>
+    // Referências aos elementos
+    const painelDashboard = document.getElementById('painel-dashboard');
+    const painelEditor = document.getElementById('painel-editor');
+    const formCurso = document.getElementById('form-curso');
+    
+    // Elementos do Mapa
+    const mapaArea = document.getElementById('area-clique');
+    const pino = document.getElementById('pino-temp');
+    const displayTop = document.getElementById('val-top');
+    const displayLeft = document.getElementById('val-left');
+
+    // --- FUNÇÕES DE NAVEGAÇÃO ---
+
+    function abrirEditorNovo() {
+        // Limpa o formulário
+        formCurso.reset();
+        document.getElementById('titulo-editor').innerText = "Criando Novo Curso";
+        
+        // Reseta o pino
+        pino.style.display = 'none';
+        displayTop.innerText = '0%';
+        displayLeft.innerText = '0%';
+
+        // Troca a tela
+        painelDashboard.classList.add('hidden');
+        painelEditor.classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function preencherEditorPataxo() {
+        // Simula o carregamento dos dados existentes do Povo Pataxó
+        document.getElementById('titulo-editor').innerText = "Editando: Povo Pataxó";
+        
+        document.getElementById('campo-nome').value = "Povo Pataxó";
+        document.getElementById('campo-regiao').value = "Extremo Sul da Bahia";
+        document.getElementById('campo-video-titulo').value = "A Força da Terra";
+        document.getElementById('campo-video-capa').value = "img/meio_ambiente.jpg";
+        document.getElementById('campo-texto').value = "O povo Pataxó vive em diversas aldeias no extremo sul...";
+        document.getElementById('campo-quiz-pergunta').value = "Qual região é considerada sagrada?";
+        document.getElementById('campo-pdf').value = "Mapa Histórico 1800.pdf";
+
+        // Posiciona o pino no lugar correto (simulando a posição salva)
+        pino.style.top = '78%';
+        pino.style.left = '66%';
+        pino.style.display = 'block';
+        displayTop.innerText = '78%';
+        displayLeft.innerText = '66%';
+
+        // Troca a tela
+        painelDashboard.classList.add('hidden');
+        painelEditor.classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function fecharEditor() {
+        painelEditor.classList.add('hidden');
+        painelDashboard.classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    // --- LÓGICA DO MAPA ---
+    mapaArea.addEventListener('click', function(e) {
+        const rect = mapaArea.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        pino.style.left = xPercent + '%';
+        pino.style.top = yPercent + '%';
+        pino.style.display = 'block';
+
+        displayLeft.innerText = xPercent.toFixed(1) + '%';
+        displayTop.innerText = yPercent.toFixed(1) + '%';
+    });
+
+    // --- SALVAR ---
+    function salvarCurso(e) {
+        e.preventDefault();
+        alert("Curso salvo com sucesso!\nAs alterações já estão visíveis para os alunos.");
+        fecharEditor();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+        const navUl = document.querySelector('.header-left nav ul');
+        const headerRight = document.querySelector('.header-right');
+
+        if (usuarioLogado) {
+            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
+            if (usuarioLogado.perfil === 'professor') {
+                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
+                const linkExistente = document.querySelector('a[href="professor.html"]');
+                
+                if (!linkExistente) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
+                    navUl.appendChild(li);
+                }
+            }
+
+            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
+            // Limpa a div da direita (remove o botão login padrão)
+            headerRight.innerHTML = '';
+
+            // Cria a saudação
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            // Pega o primeiro nome
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
+
+            // Cria o botão Sair
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555'; // Cor cinza para diferenciar
+            
+            // Lógica de Logout
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); // Limpa a sessão
+                window.location.href = 'login.html'; // Manda pro login
+            };
+
+            // Adiciona os elementos no header
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
+        }
+    });
+</script>
+
+</body>
+</html>
