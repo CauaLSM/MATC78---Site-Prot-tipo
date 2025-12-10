@@ -22,6 +22,9 @@
             </nav>
         </div>
         <div class="header-right">
+            <button id="btn-tema" onclick="alternarTema()" title="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
             <a href="login.html" class="btn">Login</a>
         </div>
     </div>
@@ -82,8 +85,19 @@
 
                 <section class="curso-content-area">
                     <div id="conteudo-dinamico">
-                        
                         </div>
+
+                    <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+                    <div class="comentarios-area">
+                        <h3><i class="fas fa-comments"></i> Dúvidas e Comentários</h3>
+                        <div id="lista-comentarios"></div>
+                        <div class="novo-comentario-box">
+                            <textarea id="texto-comentario" placeholder="Escreva sua dúvida ou comentário aqui..."></textarea>
+                            <button class="btn secondary" onclick="postarComentario()">
+                                <i class="fas fa-paper-plane"></i> Enviar Comentário
+                            </button>
+                        </div>
+                    </div>
 
                     <div class="curso-nav-buttons">
                         <button id="btn-anterior" class="btn-nav secondary" onclick="navegar(-1)" disabled>
@@ -107,13 +121,13 @@
 </footer>
 
 <script>
-    // DADOS DO CURSO (Conteúdo separado por passos)
+    // --- 1. DADOS DO CURSO ---
     const cursoDados = [
         {
             tipo: 'video',
             titulo: '1. Vídeo: A Força da Terra',
             icone: 'fa-play-circle',
-            capa: 'img/meio-ambiente.jpg',
+            capa: 'img/meio_ambiente.jpg', // Certifique-se que esta imagem existe
             conteudo: `
                 <span class="tag-curso">Vídeo Aula</span>
                 <h1>Documentário: A Força da Terra</h1>
@@ -121,7 +135,7 @@
                     <div class="play-button"><i class="fas fa-play"></i></div>
                     <p>Clique para assistir</p>
                 </div>
-                <p>Nesta aula introdutória, conheceremos o território sagrado do Monte Pascoal.</p>
+                <p>Nesta aula introdutória, conheceremos o território sagrado do Monte Pascoal e sua importância histórica.</p>
             `
         },
         {
@@ -144,8 +158,40 @@
             `
         },
         {
+            tipo: 'material',
+            titulo: '3. Materiais Complementares',
+            icone: 'fa-folder-open',
+            conteudo: `
+                <span class="tag-curso">Downloads</span>
+                <h1>Materiais de Apoio</h1>
+                <div class="texto-aula">
+                    <p>Aprofunde seus conhecimentos com os arquivos selecionados pelo professor.</p>
+                    
+                    <div class="lista-materiais">
+                        <a href="#" class="item-material">
+                            <div class="material-icon"><i class="fas fa-file-pdf"></i></div>
+                            <div class="material-info">
+                                <strong>Mapa Histórico 1800.pdf</strong>
+                                <p>Cartografia histórica da região sul.</p>
+                            </div>
+                            <div class="material-action"><i class="fas fa-download"></i></div>
+                        </a>
+
+                        <a href="#" class="item-material">
+                            <div class="material-icon"><i class="fas fa-link"></i></div>
+                            <div class="material-info">
+                                <strong>Artigo: A retomada da língua Patxohã</strong>
+                                <p>Link externo para leitura acadêmica.</p>
+                            </div>
+                            <div class="material-action"><i class="fas fa-external-link-alt"></i></div>
+                        </a>
+                    </div>
+                </div>
+            `
+        },
+        {
             tipo: 'quiz',
-            titulo: '3. Quiz: Fixação',
+            titulo: '4. Quiz: Fixação',
             icone: 'fa-question-circle',
             conteudo: `
                 <span class="tag-curso">Exercício</span>
@@ -155,18 +201,13 @@
                     
                     <div class="quiz-options">
                         <label class="quiz-option">
-                            <input type="radio" name="q1" value="a"> 
-                            Chapada Diamantina
+                            <input type="radio" name="q1" value="a"> Chapada Diamantina
                         </label>
-                        
-                        <label class="quiz-option">
-                            <input type="radio" name="q1" value="b"> 
-                            Monte Pascoal
+                        <label class="quiz-option correct">
+                            <input type="radio" name="q1" value="b"> Monte Pascoal
                         </label>
-                        
                         <label class="quiz-option">
-                            <input type="radio" name="q1" value="c"> 
-                            Rio São Francisco
+                            <input type="radio" name="q1" value="c"> Rio São Francisco
                         </label>
                     </div>
 
@@ -177,53 +218,21 @@
                     </button>
                 </div>
             `
-        },
-        {
-            tipo: 'material',
-            titulo: 'Materiais Complementares', // Título na Sidebar
-            icone: 'fa-folder-open',
-            conteudo: `
-                <span class="tag-curso">Downloads</span>
-                <h1>Materiais de Apoio</h1>
-                <div class="texto-aula">
-                    <p>Aprofunde seus conhecimentos com os arquivos selecionados pelo professor.</p>
-                    
-                    <div class="lista-materiais">
-                        <a href="#" class="item-material">
-                            <i class="fas fa-file-pdf"></i>
-                            <div>
-                                <strong>Mapa Histórico 1800.pdf</strong>
-                                <small>Cartografia histórica da região sul.</small>
-                            </div>
-                            <span class="btn-download"><i class="fas fa-download"></i></span>
-                        </a>
-
-                        <a href="#" class="item-material">
-                            <i class="fas fa-link"></i>
-                            <div>
-                                <strong>Artigo: A retomada da língua Patxohã</strong>
-                                <small>Link externo para leitura acadêmica.</small>
-                            </div>
-                            <span class="btn-download"><i class="fas fa-external-link-alt"></i></span>
-                        </a>
-                    </div>
-                </div>
-            `
         }
     ];
 
     let passoAtual = 0;
 
+    // --- 2. NAVEGAÇÃO DO CURSO ---
     function abrirCurso(nomePovo) {
         document.getElementById('area-mapa').style.display = 'none';
         document.getElementById('area-curso').style.display = 'block';
         document.getElementById('nome-povo-breadcrumb').innerText = nomePovo;
-        
-        // Reseta para o primeiro passo
         passoAtual = 0;
         carregarPasso();
         gerarSidebar();
         window.scrollTo(0,0);
+        renderizarComentarios(); // Carrega comentários
     }
 
     function fecharCurso() {
@@ -233,23 +242,17 @@
 
     function carregarPasso() {
         const dados = cursoDados[passoAtual];
-        
-        // 1. Injeta o conteúdo HTML
         document.getElementById('conteudo-dinamico').innerHTML = dados.conteudo;
         
-        // NOVO: Se for um vídeo, aplica a imagem de capa específica
+        // Aplica capa do vídeo se existir
         if (dados.tipo === 'video' && dados.capa) {
             const videoElem = document.getElementById('video-capa-dinamica');
             if (videoElem) {
-                // Aplica o gradiente escuro + a imagem definida nos dados
                 videoElem.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${dados.capa}')`;
             }
         }
         
-        // 2. Atualiza Títulos
         document.getElementById('titulo-aula-atual').innerText = dados.titulo;
-
-        // ... (Restante da função carregarPasso continua igual: botões, progresso, sidebar)
         document.getElementById('btn-anterior').disabled = (passoAtual === 0);
         
         const btnProximo = document.getElementById('btn-proximo');
@@ -287,8 +290,7 @@
 
     function gerarSidebar() {
         const lista = document.getElementById('lista-atividades');
-        lista.innerHTML = ''; // Limpa
-        
+        lista.innerHTML = '';
         cursoDados.forEach((item, index) => {
             const li = document.createElement('li');
             li.id = `sidebar-item-${index}`;
@@ -300,29 +302,24 @@
     }
 
     function atualizarSidebarUI() {
-        // Remove active de todos
         const itens = document.querySelectorAll('#lista-atividades li');
         itens.forEach(item => item.classList.remove('active'));
-        
-        // Adiciona ao atual
         const atual = document.getElementById(`sidebar-item-${passoAtual}`);
         if(atual) atual.classList.add('active');
     }
 
+    // --- 3. LÓGICA DO QUIZ ---
     function verificarResposta(respostaCorreta) {
-        // 1. Pega o elemento que foi marcado
         const selecionado = document.querySelector('input[name="q1"]:checked');
         const divFeedback = document.getElementById('feedback-quiz');
 
-        // 2. Validação: Usuário não marcou nada
         if (!selecionado) {
             alert("Por favor, selecione uma alternativa.");
             return;
         }
 
-        // 3. Verifica se acertou
         if (selecionado.value === respostaCorreta) {
-            divFeedback.innerHTML = '<i class="fas fa-check-circle"></i> Parabéns! Você acertou. O Monte Pascoal é o símbolo de resistência Pataxó.';
+            divFeedback.innerHTML = '<i class="fas fa-check-circle"></i> Parabéns! Você acertou. O Monte Pascoal é o símbolo de resistência.';
             divFeedback.className = 'resultado-quiz sucesso';
         } else {
             divFeedback.innerHTML = '<i class="fas fa-times-circle"></i> Resposta incorreta. Tente novamente!';
@@ -330,17 +327,74 @@
         }
     }
 
+    // --- 4. LÓGICA DE COMENTÁRIOS ---
+    const comentariosMock = [
+        { nome: "Mariana Souza", texto: "Professor, adorei o vídeo! Onde posso encontrar mais sobre a língua Patxohã?", data: "Há 2 horas" },
+        { nome: "Carlos Silva", texto: "Muito interessante saber sobre o Monte Pascoal como símbolo de resistência.", data: "Há 1 dia" }
+    ];
+
+    function renderizarComentarios() {
+        const lista = document.getElementById('lista-comentarios');
+        lista.innerHTML = '';
+        comentariosMock.forEach(c => {
+            const html = `
+                <div class="comentario-item">
+                    <div class="avatar">${c.nome.charAt(0)}</div>
+                    <div class="comentario-conteudo">
+                        <h4>${c.nome} <span class="comentario-data">${c.data}</span></h4>
+                        <p>${c.texto}</p>
+                    </div>
+                </div>
+            `;
+            lista.innerHTML += html;
+        });
+    }
+
+    function postarComentario() {
+        const input = document.getElementById('texto-comentario');
+        const texto = input.value.trim();
+        if (texto) {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+            const nomeAutor = usuarioLogado ? usuarioLogado.nome : "Você";
+            comentariosMock.unshift({ nome: nomeAutor, texto: texto, data: "Agora mesmo" });
+            input.value = '';
+            renderizarComentarios();
+        } else {
+            alert("Por favor, escreva algo antes de enviar.");
+        }
+    }
+
+    // --- 5. LÓGICA DO TEMA (DARK MODE) ---
+    function alternarTema() {
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+        const ehDark = body.classList.contains('dark-mode');
+        localStorage.setItem('tema_escuro', ehDark);
+        atualizarIconeTema(ehDark);
+    }
+
+    function atualizarIconeTema(ehDark) {
+        const btn = document.getElementById('btn-tema');
+        if (btn) {
+            btn.innerHTML = ehDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+    }
+
+    // --- 6. SESSÃO E INICIALIZAÇÃO ---
     document.addEventListener('DOMContentLoaded', function() {
+        // Tema
+        const temaSalvo = localStorage.getItem('tema_escuro') === 'true';
+        if (temaSalvo) document.body.classList.add('dark-mode');
+        atualizarIconeTema(temaSalvo);
+
+        // Sessão de Usuário
         const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
         const navUl = document.querySelector('.header-left nav ul');
         const headerRight = document.querySelector('.header-right');
 
         if (usuarioLogado) {
-            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
             if (usuarioLogado.perfil === 'professor') {
-                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
                 const linkExistente = document.querySelector('a[href="professor.html"]');
-                
                 if (!linkExistente) {
                     const li = document.createElement('li');
                     li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
@@ -348,38 +402,21 @@
                 }
             }
 
-            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
-            // Limpa a div da direita (remove o botão login padrão)
+            // Preserva o botão de tema ao recriar o header
+            const btnTema = document.getElementById('btn-tema');
             headerRight.innerHTML = '';
+            headerRight.appendChild(btnTema); // Adiciona o botão de tema de volta
 
-            // Cria a saudação
             const saudacao = document.createElement('div');
-            saudacao.style.color = '#fff';
-            saudacao.style.marginRight = '20px';
-            saudacao.style.fontSize = '14px';
-            // Pega o primeiro nome
-            const primeiroNome = usuarioLogado.nome.split(' ')[0];
-            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
-
-            // Cria o botão Sair
-            const btnSair = document.createElement('a');
-            btnSair.href = '#';
-            btnSair.className = 'btn';
-            btnSair.innerText = 'Sair';
-            btnSair.style.padding = '5px 15px';
-            btnSair.style.fontSize = '14px';
-            btnSair.style.background = '#555'; // Cor cinza para diferenciar
+            saudacao.style.color = '#fff'; saudacao.style.marginRight = '20px'; saudacao.style.fontSize = '14px';
+            saudacao.innerHTML = `Olá, <strong>${usuarioLogado.nome.split(' ')[0]}</strong>`;
             
-            // Lógica de Logout
-            btnSair.onclick = function(e) {
-                e.preventDefault();
-                localStorage.removeItem('usuario_logado'); // Limpa a sessão
-                window.location.href = 'login.html'; // Manda pro login
-            };
+            const btnSair = document.createElement('a');
+            btnSair.href = '#'; btnSair.className = 'btn'; btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px'; btnSair.style.fontSize = '14px'; btnSair.style.background = '#555';
+            btnSair.onclick = function(e) { e.preventDefault(); localStorage.removeItem('usuario_logado'); window.location.href = 'login.html'; };
 
-            // Adiciona os elementos no header
-            headerRight.appendChild(saudacao);
-            headerRight.appendChild(btnSair);
+            headerRight.appendChild(saudacao); headerRight.appendChild(btnSair);
         }
     });
 </script>
