@@ -22,6 +22,10 @@
             </nav>
         </div>
         <div class="header-right">
+            <button id="btn-tema" onclick="alternarTema()" title="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+            
             <a href="login.html" class="btn">Login</a>
         </div>
     </div>
@@ -70,7 +74,7 @@
                 </div>
             </div>
             <div class="material-card">
-                <img src="img/criancas-africanas-credito_Steve-McCurry_Fubiz-1-e1707717296270.jpg" class="material-image">
+                <img src="https://via.placeholder.com/300x180?text=Jogos+Africanos" class="material-image">
                 <div class="material-card-content">
                     <h3>Oficina: Jogos Africanos</h3>
                     <p>Aprenda Mancala e Shisima.</p>
@@ -79,7 +83,7 @@
                 </div>
             </div>
             <div class="material-card">
-                <img src="img/padrao-africano-plano_23-2149354749.avif" class="material-image">
+                <img src="https://via.placeholder.com/300x180?text=Arte+Indigena" class="material-image">
                 <div class="material-card-content">
                     <h3>Grafismos Indígenas</h3>
                     <p>Geometria e arte corporal Pataxó.</p>
@@ -88,7 +92,7 @@
                 </div>
             </div>
             <div class="material-card">
-                <img src="img/capa_africans_world_war_two.jpg" class="material-image">
+                <img src="https://via.placeholder.com/300x180?text=Podcast+Historia" class="material-image">
                 <div class="material-card-content">
                     <h3>Podcast: Heróis da Liberdade</h3>
                     <p>Episódios sobre Zumbi e Dandara.</p>
@@ -132,12 +136,52 @@
 <footer><div class="container"><p>&copy; 2025 AfroEduca.</p></div></footer>
 
 <script>
-    // Sessão
+    // --- LÓGICA DO MODO NOTURNO ---
+    
+    // Função acionada pelo botão
+    function alternarTema() {
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+        
+        const ehDark = body.classList.contains('dark-mode');
+        localStorage.setItem('tema_escuro', ehDark);
+        
+        atualizarIconeTema(ehDark);
+    }
+
+    // Função para trocar o ícone (Lua/Sol)
+    function atualizarIconeTema(ehDark) {
+        // Tenta pegar o botão (seja na versão logada ou deslogada)
+        const btn = document.getElementById('btn-tema');
+        if (btn) {
+            if (ehDark) {
+                btn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                btn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+    }
+
+    // Aplica o tema salvo ao carregar a página
+    const temaSalvo = localStorage.getItem('tema_escuro') === 'true';
+    if (temaSalvo) {
+        document.body.classList.add('dark-mode');
+    }
+
+    // --- SESSÃO E INICIALIZAÇÃO ---
     document.addEventListener('DOMContentLoaded', function() {
+        
+        // 1. Atualiza ícone do tema ao carregar
+        const ehDarkAgora = document.body.classList.contains('dark-mode');
+        atualizarIconeTema(ehDarkAgora);
+
+        // 2. Lógica de Usuário Logado
         const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
         const navUl = document.querySelector('.header-left nav ul');
         const headerRight = document.querySelector('.header-right');
+
         if (usuarioLogado) {
+            // Adiciona link de professor se necessário
             if (usuarioLogado.perfil === 'professor') {
                 const linkExistente = document.querySelector('a[href="professor.html"]');
                 if (!linkExistente) {
@@ -146,18 +190,47 @@
                     navUl.appendChild(li);
                 }
             }
+
+            // LIMPA O HEADER (Remove botão login padrão)
             headerRight.innerHTML = '';
+
+            // --- RECRIA O BOTÃO DE TEMA (Para não sumir) ---
+            const btnTema = document.createElement('button');
+            btnTema.id = 'btn-tema';
+            btnTema.onclick = alternarTema;
+            btnTema.title = "Alternar Tema";
+            // Aplica o ícone correto
+            btnTema.innerHTML = ehDarkAgora ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            // Adiciona ao header
+            headerRight.appendChild(btnTema);
+
+            // Cria saudação
             const saudacao = document.createElement('div');
-            saudacao.style.color = '#fff'; saudacao.style.marginRight = '20px'; saudacao.style.fontSize = '14px';
+            saudacao.style.color = '#fff'; 
+            saudacao.style.marginRight = '20px'; 
+            saudacao.style.fontSize = '14px';
             saudacao.innerHTML = `Olá, <strong>${usuarioLogado.nome.split(' ')[0]}</strong>`;
+            
+            // Cria botão Sair
             const btnSair = document.createElement('a');
-            btnSair.href = '#'; btnSair.className = 'btn'; btnSair.innerText = 'Sair';
-            btnSair.style.padding = '5px 15px'; btnSair.style.fontSize = '14px'; btnSair.style.background = '#555';
-            btnSair.onclick = function(e) { e.preventDefault(); localStorage.removeItem('usuario_logado'); window.location.href = 'login.html'; };
-            headerRight.appendChild(saudacao); headerRight.appendChild(btnSair);
+            btnSair.href = '#'; 
+            btnSair.className = 'btn'; 
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px'; 
+            btnSair.style.fontSize = '14px'; 
+            btnSair.style.background = '#555';
+            btnSair.onclick = function(e) { 
+                e.preventDefault(); 
+                localStorage.removeItem('usuario_logado'); 
+                window.location.href = 'login.html'; 
+            };
+
+            headerRight.appendChild(saudacao); 
+            headerRight.appendChild(btnSair);
         }
     });
 
+    // Funções do Modal
     function abrirMaterial(id) { if (id === 'espelho') document.getElementById('modal-material').style.display = 'flex'; }
     function fecharMaterial() { document.getElementById('modal-material').style.display = 'none'; }
     window.onclick = function(event) { if (event.target == document.getElementById('modal-material')) fecharMaterial(); }
