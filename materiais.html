@@ -16,15 +16,15 @@
             
             <nav>
                 <ul>
-                    <li><a href="index.html">Início</a></li> 
+                    <li><a href="index.html" class="active">Início</a></li> 
                     <li><a href="cursos.html">Cursos</a></li>
-                    <li><a href="materiais.html" class="active">Materiais</a></li>
+                    <li><a href="materiais.html">Materiais</a></li>
                 </ul>
             </nav>
         </div>
 
         <div class="header-right">
-            <a href="login.html" class="btn-login">Login</a>
+            <a href="login.html" class="btn">Login</a>
         </div>
 
     </div>
@@ -110,7 +110,60 @@
         </div>
     </footer>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+        const navUl = document.querySelector('.header-left nav ul');
+        const headerRight = document.querySelector('.header-right');
+
+        if (usuarioLogado) {
+            // 1. ADICIONA O LINK "ÁREA DO PROFESSOR" SE NECESSÁRIO
+            if (usuarioLogado.perfil === 'professor') {
+                // Verifica se o link já existe para não duplicar (caso esteja no professor.html)
+                const linkExistente = document.querySelector('a[href="professor.html"]');
+                
+                if (!linkExistente) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="professor.html" style="color: #F2AB27; font-weight: bold;">Área do Professor</a>';
+                    navUl.appendChild(li);
+                }
+            }
+
+            // 2. MUDA O BOTÃO DE "LOGIN" PARA "SAIR"
+            // Limpa a div da direita (remove o botão login padrão)
+            headerRight.innerHTML = '';
+
+            // Cria a saudação
+            const saudacao = document.createElement('div');
+            saudacao.style.color = '#fff';
+            saudacao.style.marginRight = '20px';
+            saudacao.style.fontSize = '14px';
+            // Pega o primeiro nome
+            const primeiroNome = usuarioLogado.nome.split(' ')[0];
+            saudacao.innerHTML = `Olá, <strong>${primeiroNome}</strong>`;
+
+            // Cria o botão Sair
+            const btnSair = document.createElement('a');
+            btnSair.href = '#';
+            btnSair.className = 'btn';
+            btnSair.innerText = 'Sair';
+            btnSair.style.padding = '5px 15px';
+            btnSair.style.fontSize = '14px';
+            btnSair.style.background = '#555'; // Cor cinza para diferenciar
+            
+            // Lógica de Logout
+            btnSair.onclick = function(e) {
+                e.preventDefault();
+                localStorage.removeItem('usuario_logado'); // Limpa a sessão
+                window.location.href = 'login.html'; // Manda pro login
+            };
+
+            // Adiciona os elementos no header
+            headerRight.appendChild(saudacao);
+            headerRight.appendChild(btnSair);
+        }
+    });
+</script>
+
 </body>
 </html>
-
-
